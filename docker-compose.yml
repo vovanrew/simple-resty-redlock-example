@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  resty:
+    container_name: resty 
+    image: openresty/openresty:bionic
+    environment:
+      LUA_PATH: "/mnt/lua/?.lua;/usr/local/openresty/site/lualib/?.ljbc;/usr/local/openresty/site/lualib/?/init.ljbc;/usr/local/openresty/lualib/?.ljbc;/usr/local/openresty/lualib/?/init.ljbc;/usr/local/openresty/site/lualib/?.lua;/usr/local/openresty/site/lualib/?/init.lua;/usr/local/openresty/lualib/?.lua;/usr/local/openresty/lualib/?/init.lua;./?.lua;/usr/local/openresty/luajit/share/luajit-2.1.0-beta3/?.lua;/usr/local/share/lua/5.1/?.lua;/usr/local/share/lua/5.1/?/init.lua;/usr/local/openresty/luajit/share/lua/5.1/?.lua;/usr/local/openresty/luajit/share/lua/5.1/?/init.lua"
+    volumes:
+      - "./lua:/mnt/lua"
+      - "./conf.d:/etc/nginx/conf.d"
+      - "./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf"
+    ports:
+      - "80:80"
+
